@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import java.util.HashMap;
+
 /**
  * Created by Rio
  */
@@ -13,16 +15,16 @@ public class DriverControl extends OpMode {
 
     private Hardware hardware;
 
-    private boolean[] debounce = new boolean[4]; // a, b, x, y
+    private HashMap<Character, Boolean> debounce = new HashMap<>();
 
     @Override
     public void init() {
         hardware = new Hardware(hardwareMap); // Call the constructor here
 
-        debounce['a'] = false;
-        debounce['b'] = false;
-        debounce['x'] = false;
-        debounce['y'] = false;
+        debounce.put('a', false);
+        debounce.put('b', false);
+        debounce.put('x', false);
+        debounce.put('y', false);
     }
 
     @Override
@@ -41,7 +43,7 @@ public class DriverControl extends OpMode {
             hardware.rightSweeper.setPosition(hardware.rightSweeper.getPosition() + .1);
         else if(gamepad1.right_trigger > .8)
             hardware.rightSweeper.setPosition(hardware.rightSweeper.getPosition() - .1);
-
+        /*
         // Claw
         if(gamepad1.a) {
             if(debounce['a']) {
@@ -55,5 +57,6 @@ public class DriverControl extends OpMode {
         } else {
             debounce['a'] = false;
         }
+        */
     }
 }
