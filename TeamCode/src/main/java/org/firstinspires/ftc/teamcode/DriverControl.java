@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by Rio
  */
 
+@TeleOp(name = "Driver Control")
 public class DriverControl extends OpMode {
 
     private Hardware hardware;
