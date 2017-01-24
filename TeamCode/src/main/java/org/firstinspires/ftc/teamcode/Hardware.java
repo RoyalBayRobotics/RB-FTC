@@ -10,6 +10,9 @@ import java.util.*; // List and ArrayList
 
 public class Hardware {
 
+    public static final double CLAW_OPEN = Servo.MAX_POSITION;
+    public static final double CLAW_CLOSE = Servo.MIN_POSITION;
+
     public DcMotor leftWheel;
     public DcMotor rightWheel;
 
