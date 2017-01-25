@@ -31,18 +31,18 @@ public class DriverControl extends OpMode {
     public void loop() {
 
         // Wheels
-        hardware.leftWheel.setPower(gamepad1.left_stick_y - gamepad1.left_stick_x);
-        hardware.rightWheel.setPower(gamepad1.left_stick_y + gamepad1.left_stick_x);
+        hardware.leftWheel.setPower(gamepad1.left_stick_y + gamepad1.left_stick_x);
+        hardware.rightWheel.setPower(gamepad1.left_stick_y - gamepad1.left_stick_x);
 
         // Sweepers
         if(gamepad1.left_bumper)
-            hardware.leftSweeper.setPosition(hardware.leftSweeper.getPosition() + .1);
+            hardware.leftSweeper.setPosition(Servo.MAX_POSITION);
         else if(gamepad1.left_trigger > .8)
-            hardware.leftSweeper.setPosition(hardware.leftSweeper.getPosition() - .1);
+            hardware.leftSweeper.setPosition(Servo.MIN_POSITION);
         if(gamepad1.right_bumper)
-            hardware.rightSweeper.setPosition(hardware.rightSweeper.getPosition() + .1);
+            hardware.rightSweeper.setPosition(Servo.MAX_POSITION);
         else if(gamepad1.right_trigger > .8)
-            hardware.rightSweeper.setPosition(hardware.rightSweeper.getPosition() - .1);
+            hardware.rightSweeper.setPosition(Servo.MIN_POSITION);
         /*
         // Claw
         if(gamepad1.a) {
