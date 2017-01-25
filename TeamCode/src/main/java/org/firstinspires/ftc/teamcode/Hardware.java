@@ -28,13 +28,13 @@ public class Hardware {
 
         leftWheel  = hwMap.dcMotor.get("left_wheel");
         rightWheel = hwMap.dcMotor.get("right_wheel");
-        leftWheel.setDirection(DcMotorSimple.Direction.FORWARD); // TODO
-        rightWheel.setDirection(DcMotorSimple.Direction.REVERSE); // Need to test out on the actual robot
+        leftWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightWheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
         leftSweeper  = hwMap.servo.get("left_sweeper");
         rightSweeper = hwMap.servo.get("right_sweeper");
-        leftSweeper.setDirection(Servo.Direction.FORWARD); // TODO
-        rightSweeper.setDirection(Servo.Direction.REVERSE); // Need to test out on the actual robot
+        leftSweeper.setDirection(Servo.Direction.FORWARD); // TODO Need to test out on the actual robot
+        rightSweeper.setDirection(Servo.Direction.REVERSE);
         leftSweeper.setPosition(Servo.MAX_POSITION);
         rightSweeper.setPosition(Servo.MAX_POSITION);
 
@@ -48,14 +48,13 @@ public class Hardware {
         for(DcMotor armMotor : baseArm) {
             armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the encoder to 0;
             armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            // TODO
-            // Maybe rotate it to a specific position?
+            // TODO Maybe let the arm rotate it to a specific position?
         }
         /*
         extArm.add(0, hwMap.servo.get("ext_arm_left"));
         extArm.add(1, hwMap.servo.get("ext_arm_right"));
-        extArm.get(0).setDirection(Servo.Direction.FORWARD); // TODO
-        extArm.get(1).setDirection(Servo.Direction.REVERSE); // Same
+        extArm.get(0).setDirection(Servo.Direction.FORWARD); // TODO Same
+        extArm.get(1).setDirection(Servo.Direction.REVERSE);
         for(Servo armServo : extArm) {
             armServo.setPosition(Servo.MAX_POSITION);
         }
