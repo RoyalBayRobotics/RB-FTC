@@ -38,11 +38,10 @@ public class Hardware {
         leftSweeper.setPosition(Servo.MAX_POSITION);
         rightSweeper.setPosition(Servo.MAX_POSITION);
 
-        /*
         claw = hwMap.servo.get("claw");
         claw.setDirection(Servo.Direction.FORWARD); //TODO Same
         claw.setPosition(Servo.MAX_POSITION);
-        */
+
         baseArm.add(0, hwMap.dcMotor.get("base_arm_left"));
         baseArm.add(1, hwMap.dcMotor.get("base_arm_right"));
         for(DcMotor armMotor : baseArm) {
@@ -50,7 +49,7 @@ public class Hardware {
             armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             // TODO Maybe let the arm rotate it to a specific position?
         }
-        /*
+        
         extArm.add(0, hwMap.servo.get("ext_arm_left"));
         extArm.add(1, hwMap.servo.get("ext_arm_right"));
         extArm.get(0).setDirection(Servo.Direction.FORWARD); // TODO Same
@@ -58,7 +57,6 @@ public class Hardware {
         for(Servo armServo : extArm) {
             armServo.setPosition(Servo.MAX_POSITION);
         }
-        */
     }
 
 }

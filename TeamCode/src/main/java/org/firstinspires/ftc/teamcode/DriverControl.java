@@ -25,6 +25,8 @@ public class DriverControl extends OpMode {
         debounce.put('b', false);
         debounce.put('x', false);
         debounce.put('y', false);
+
+        telemetry.addData("Status", "Initalized");
     }
 
     @Override
@@ -43,7 +45,7 @@ public class DriverControl extends OpMode {
             hardware.rightSweeper.setPosition(Servo.MAX_POSITION);
         else if(gamepad1.right_trigger > .8)
             hardware.rightSweeper.setPosition(Servo.MIN_POSITION);
-        /*
+        
         // Claw
         if(gamepad1.a) {
             if(debounce['a']) {
@@ -57,6 +59,11 @@ public class DriverControl extends OpMode {
         } else {
             debounce['a'] = false;
         }
-        */
+        
+
+        // Base arm
+        for(DcMotor armMotor : hardware.baseArm) {
+            armMotor.setPower(gamepad1.right_stick_y);
+        }
     }
 }
