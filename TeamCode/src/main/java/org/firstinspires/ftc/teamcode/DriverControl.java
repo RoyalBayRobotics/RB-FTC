@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.HashMap;
@@ -48,22 +49,28 @@ public class DriverControl extends OpMode {
         
         // Claw
         if(gamepad1.a) {
-            if(debounce['a']) {
+            if(debounce.get('a')) {
                 if(hardware.claw.getPosition() != Hardware.CLAW_CLOSE) {
                     hardware.claw.setPosition(Hardware.CLAW_CLOSE);
                 } else {
                     hardware.claw.setPosition(Hardware.CLAW_OPEN);
                 }
             }
-            debounce['a'] = true;
+            debounce.put('a', true);
         } else {
-            debounce['a'] = false;
+            debounce.put('a', false);
         }
         
 
         // Base arm
         for(DcMotor armMotor : hardware.baseArm) {
             armMotor.setPower(gamepad1.right_stick_y);
+        }
+
+        // Extended arm
+        for(Servo extMotor : hardware.extArm) {
+            extMotor.setPosition(extMotor.getPosition() +
+                    gamepad1.right_stick_x * 10);
         }
     }
 }
