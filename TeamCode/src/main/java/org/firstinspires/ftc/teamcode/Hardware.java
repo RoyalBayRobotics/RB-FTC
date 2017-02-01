@@ -44,6 +44,8 @@ public class Hardware {
 
         baseArm.add(0, hwMap.dcMotor.get("base_arm_left"));
         baseArm.add(1, hwMap.dcMotor.get("base_arm_right"));
+        baseArm.get(0).setDirection(DcMotorSimple.Direction.REVERSE);
+        baseArm.get(1).setDirection(DcMotorSimple.Direction.FORWARD);
         for(DcMotor armMotor : baseArm) {
             armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the encoder to 0;
             armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
