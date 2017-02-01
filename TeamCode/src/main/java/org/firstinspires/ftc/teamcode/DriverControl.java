@@ -64,7 +64,7 @@ public class DriverControl extends OpMode {
 
         // Base arm
         for(DcMotor armMotor : hardware.baseArm) {
-            armMotor.setPower(gamepad1.right_stick_y);
+            armMotor.setPower(gamepad1.right_stick_y / 5);
         }
 
         // Extended arm
