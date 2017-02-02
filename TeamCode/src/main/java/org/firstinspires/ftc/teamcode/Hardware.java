@@ -16,13 +16,12 @@ public class Hardware {
     public DcMotor leftWheel;
     public DcMotor rightWheel;
 
-    public Servo leftSweeper;
-    public Servo rightSweeper;
+    public List<Servo> sweepers = new ArrayList<>(); // Doing the same things to them
 
     public Servo claw;
 
-    public List<DcMotor> baseArm = new ArrayList<>(); // Doing the same things to them
-    public List<Servo> extArm = new ArrayList<>(); // Same as above
+    public List<DcMotor> baseArm = new ArrayList<>(); // Same as above
+    public List<Servo> extArm = new ArrayList<>();
 
     public Hardware(HardwareMap hwMap) {
 
@@ -31,12 +30,13 @@ public class Hardware {
         leftWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         rightWheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        leftSweeper  = hwMap.servo.get("left_sweeper");
-        rightSweeper = hwMap.servo.get("right_sweeper");
-        leftSweeper.setDirection(Servo.Direction.FORWARD); // TODO Need to test out on the actual robot
-        rightSweeper.setDirection(Servo.Direction.REVERSE);
-        leftSweeper.setPosition(Servo.MAX_POSITION);
-        rightSweeper.setPosition(Servo.MAX_POSITION);
+        sweepers.add(0, hwMap.servo.get("left_sweeper"));
+        sweepers.add(1, hwMap.servo.get("right_sweeper"));
+        sweepers.get(0).setDirection(Servo.Direction.FORWARD); // TODO Need to test out on the actual robot
+        sweepers.get(1).setDirection(Servo.Direction.REVERSE);
+        for(Servo sweeper : sweepers) {
+            sweeper.setPosition(Servo.MIN_POSITION);
+        }
 
         claw = hwMap.servo.get("claw");
         claw.setDirection(Servo.Direction.FORWARD); //TODO Same
