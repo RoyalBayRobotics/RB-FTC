@@ -32,7 +32,7 @@ public class Hardware {
 
         sweepers.add(0, hwMap.servo.get("left_sweeper"));
         sweepers.add(1, hwMap.servo.get("right_sweeper"));
-        sweepers.get(0).setDirection(Servo.Direction.FORWARD); // TODO Need to test out on the actual robot
+        sweepers.get(0).setDirection(Servo.Direction.FORWARD);
         sweepers.get(1).setDirection(Servo.Direction.REVERSE);
         for(Servo sweeper : sweepers) {
             sweeper.setPosition(Servo.MIN_POSITION);
@@ -54,7 +54,7 @@ public class Hardware {
         
         extArm.add(0, hwMap.servo.get("ext_arm_left"));
         extArm.add(1, hwMap.servo.get("ext_arm_right"));
-        extArm.get(0).setDirection(Servo.Direction.FORWARD); // TODO Same
+        extArm.get(0).setDirection(Servo.Direction.FORWARD);
         extArm.get(1).setDirection(Servo.Direction.REVERSE);
         for(Servo armServo : extArm) {
             armServo.setPosition(Servo.MAX_POSITION);
