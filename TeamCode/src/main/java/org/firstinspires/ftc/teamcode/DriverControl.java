@@ -23,6 +23,7 @@ public class DriverControl extends OpMode {
     public void init() {
         hardware = new Hardware(hardwareMap); // Call the constructor here
 
+        // Store debounce informations for a b x y buttons
         debounce.put('a', false);
         debounce.put('b', false);
         debounce.put('x', false);
@@ -41,12 +42,10 @@ public class DriverControl extends OpMode {
         hardware.rightWheel.setPower(gamepad1.left_stick_y - gamepad1.left_stick_x);
 
         // Sweepers
-        if(gamepad1.right_bumper) {
-            for(Servo sweeper : hardware.sweepers) {
+        for(Servo sweeper : hardware.sweepers) {
+            if(gamepad1.right_bumper) {
                 sweeper.setPosition(Servo.MAX_POSITION);
-            }
-        } else {
-            for(Servo sweeper : hardware.sweepers) {
+            } else {
                 sweeper.setPosition(Servo.MIN_POSITION);
             }
         }
