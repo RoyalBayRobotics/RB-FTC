@@ -15,21 +15,19 @@ import java.util.HashMap;
 public class DriverControl extends OpMode {
 
     private Hardware hardware;
-    private HashMap<Character, Boolean> debounce = new HashMap<>();
+    private HashMap<String, Boolean> debounce = new HashMap<>(); // Might not need this
 
-    private boolean clawClosed;
+    private double clawPos;
+    private int tick;
 
     @Override
     public void init() {
         hardware = new Hardware(hardwareMap); // Call the constructor here
 
-        // Store debounce informations for a b x y buttons
-        debounce.put('a', false);
-        debounce.put('b', false);
-        debounce.put('x', false);
-        debounce.put('y', false);
+        // Store debounce informations
+        debounce.put("claw", false);
 
-        clawClosed = false;
+        clawPos = Hardware.CLAW_OPEN;
 
         telemetry.addData("Status", "Initalized");
     }
@@ -44,38 +42,59 @@ public class DriverControl extends OpMode {
         // Sweepers
         for(Servo sweeper : hardware.sweepers) {
             if(gamepad1.right_bumper) {
-                sweeper.setPosition(Servo.MAX_POSITION);
-            } else {
                 sweeper.setPosition(Servo.MIN_POSITION);
             }
         }
 
         // Claw
-        if(gamepad1.a) {
-            if(!debounce.get('a')) {
-                if(!clawClosed) {
-                    hardware.claw.setPosition(Hardware.CLAW_CLOSE);
-                    clawClosed = true;
+        if(gamepad1.left_bumper) {
+            if(!debounce.get("claw")) {
+                if(clawPos != Hardware.CLAW_OPEN) {
+                    clawPos = Hardware.CLAW_OPEN;
+                    for(Servo sweeper : hardware.sweepers) {
+                        sweeper.setPosition(Servo.MIN_POSITION);
+                    }
                 } else {
-                    hardware.claw.setPosition(Hardware.CLAW_OPEN);
-                    clawClosed = false;
+                    hardware.claw.setPosition(Hardware.CLAW_CLOSE);
+                    for(Servo sweeper : hardware.sweepers) {
+                        sweeper.setPosition(Servo.MAX_POSITION);
+                    }
+                    clawPos = Hardware.CLAW_CLOSE;
                 }
             }
-            debounce.put('a', true);
+            debounce.put("claw", true);
         } else {
-            debounce.put('a', false);
+            debounce.put("claw", false);
         }
 
+        hardware.claw.setPosition(clawPos + gamepad1.left_trigger / 4);
 
         // Base arm
         for(DcMotor armMotor : hardware.baseArm) {
-            armMotor.setPower(gamepad1.right_stick_y / 10);
+            if(tick % 5 == 0) {
+                if(gamepad1.right_stick_y > .5)
+                    //armMotor.setPower(.1 + gamepad1.left_trigger / 2);
+                    armMotor.setPower(1);
+                else if(gamepad1.right_stick_y < -.5)
+                    //armMotor.setPower(-.1 - gamepad1.left_trigger / 2);
+                    armMotor.setPower(-1);
+                else
+                    armMotor.setPower(0);
+            } else {
+                armMotor.setPower(0);
+            }
         }
 
         // Extended arm
         for(Servo extMotor : hardware.extArm) {
-            extMotor.setPosition(extMotor.getPosition() +
-                    gamepad1.right_stick_x / 10);
+            double go = 0;
+            if(gamepad1.right_stick_x > .5)
+                go = .01;
+            else if(gamepad1.right_stick_x < -.5)
+                go = -.01;
+
+            extMotor.setPosition(extMotor.getPosition() + go);
         }
+        tick++;
     }
 }
