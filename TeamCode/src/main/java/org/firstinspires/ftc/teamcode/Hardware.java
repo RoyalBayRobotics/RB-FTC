@@ -10,8 +10,8 @@ import java.util.*; // List and ArrayList
 
 public class Hardware {
 
-    public static final double CLAW_OPEN = Servo.MAX_POSITION;
-    public static final double CLAW_CLOSE = Servo.MIN_POSITION;
+    public static final double CLAW_OPEN = .6;
+    public static final double CLAW_CLOSE = .2;
 
     public DcMotor leftWheel;
     public DcMotor rightWheel;
@@ -39,25 +39,20 @@ public class Hardware {
         }
 
         claw = hwMap.servo.get("claw");
-        claw.setDirection(Servo.Direction.FORWARD); //TODO Same
-        claw.setPosition(Servo.MAX_POSITION);
+        claw.setDirection(Servo.Direction.REVERSE);
+        claw.setPosition(Hardware.CLAW_OPEN);
 
         baseArm.add(0, hwMap.dcMotor.get("base_arm_left"));
         baseArm.add(1, hwMap.dcMotor.get("base_arm_right"));
         baseArm.get(0).setDirection(DcMotorSimple.Direction.REVERSE);
         baseArm.get(1).setDirection(DcMotorSimple.Direction.FORWARD);
-        for(DcMotor armMotor : baseArm) {
-            armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the encoder to 0;
-            armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            // TODO Maybe let the arm rotate it to a specific position?
-        }
         
         extArm.add(0, hwMap.servo.get("ext_arm_left"));
         extArm.add(1, hwMap.servo.get("ext_arm_right"));
         extArm.get(0).setDirection(Servo.Direction.FORWARD);
         extArm.get(1).setDirection(Servo.Direction.REVERSE);
         for(Servo armServo : extArm) {
-            armServo.setPosition(Servo.MAX_POSITION);
+            armServo.setPosition(Servo.MIN_POSITION);
         }
     }
 
