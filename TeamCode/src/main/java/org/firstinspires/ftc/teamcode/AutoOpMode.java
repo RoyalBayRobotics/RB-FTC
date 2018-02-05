@@ -1,5 +1,5 @@
 /*
- * Auto.java
+ * AutoOpMode.java
  * Author: Rio
  * Date: 2018/01/25
  *
@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.*;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
-class Auto extends LinearOpMode {
+class AutoOpMode extends LinearOpMode {
 
     //protected double toBox = 60.96;
     protected double toBox = 61;
