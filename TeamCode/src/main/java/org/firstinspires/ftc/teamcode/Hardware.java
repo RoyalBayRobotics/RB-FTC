@@ -107,20 +107,25 @@ class Hardware {
         runMotors(speed, wheels.values().toArray(new DcMotor[wheels.size()]));
     }
 
-    void moveArmWith(float speed) {
+    void setArmPosition(float pos, float speed) {
+        pos = Math.max(Math.min(pos, 1), 0);
+        riser.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        riser.setTargetPosition((int) (pos * COUNT_TO_TOP));
+        runMotors(speed, riser);
+    }
+
+    float getArmPosition() {
+        return riser.getCurrentPosition() / (float) COUNT_TO_TOP;
+    }
+
+    void moveArm(float speed) {
         riser.setPower(speed);
     }
 
-    void moveArmTo(float pos) {
-        pos = Math.max(Math.min(pos, 1), 0);
-        riser.setTargetPosition((int) (pos * COUNT_TO_TOP));
-        runMotors(1, riser);
-   }
-
-   void moveClaw(float pos) {
-       claws[0].setPosition(pos);
-       claws[1].setPosition(pos);
-   }
+    void moveClaw(float pos) {
+        claws[0].setPosition(pos);
+        claws[1].setPosition(pos);
+    }
 
     private void runMotors(float speed, DcMotor... motors) {
         for(DcMotor motor : motors) {

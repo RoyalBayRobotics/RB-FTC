@@ -25,10 +25,12 @@ class AutoOpMode extends LinearOpMode {
         VuMarkIdentifier vMarkId = new VuMarkIdentifier(hardwareMap, this);
 
         hw.moveClaw(Hardware.CLAW_OPEN);
-        sleep(2000);
-        hw.moveClaw(Hardware.CLAW_CLOSE);
 
         waitForStart();
+
+        hw.moveClaw(Hardware.CLAW_CLOSE);
+        sleep(1000);
+        hw.setArmPosition(.3f, 1);
 
         RelicRecoveryVuMark vm = vMarkId.findVuMark();
         double tgtDist = getDistanceToColumn(vm);
