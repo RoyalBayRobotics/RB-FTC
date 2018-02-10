@@ -1,21 +1,21 @@
 /*
- * AutoRO.java
+ * AutoRI.java
  * Author: Rio
- * Date: 2018/01/25
+ * Date: 2018/02/10
  *
- * Autonomous mode on red team, outside
+ * Autonomous mode on red team, inside
  */
 
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.*;
 
-@Autonomous(name="Auto Red Outside", group="Red")
-public class AutoRO extends AutoOpMode {
+@Autonomous(name="Auto Red Inside", group="Red")
+public class AutoRI extends AutoOpMode {
 
     @Override
     public void runOpMode() {
-        startRot = Math.PI * 2;
+        startRot = Math.PI;
         side = "red";
 
         super.runOpMode();
