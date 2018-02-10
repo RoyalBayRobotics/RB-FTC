@@ -10,13 +10,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.qualcomm.robotcore.hardware.*;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 
 class Hardware {
 
-    private static final double WHEEL_DISTANCE = 15;
-    private static final double WHEEL_SIZE = 8;
-    private static final double MOTOR_COUNTS = 1440;
+    private static final double WHEEL_DISTANCE = 36.5;
+    private static final double WHEEL_SIZE = 10.2 * Math.PI;
+    private static final int MOTOR_COUNTS = 1440;
+    private static final int COUNT_TO_TOP = MOTOR_COUNTS * 5;
+    private LinearOpMode op;
 
     ModernRoboticsI2cRangeSensor rangeSensor;
     DcMotor riser;

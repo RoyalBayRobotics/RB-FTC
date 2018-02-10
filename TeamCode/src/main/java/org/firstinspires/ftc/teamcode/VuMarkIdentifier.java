@@ -7,6 +7,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
@@ -26,8 +27,10 @@ public class VuMarkIdentifier {
     private VuforiaLocalizer vuforia;
     private VuforiaTrackables relicTrackables;
     private VuforiaTrackable relicTemplate;
+    private LinearOpMode op;
 
-    public VuMarkIdentifier(HardwareMap hardwareMap) {
+    public VuMarkIdentifier(HardwareMap hardwareMap, LinearOpMode op) {
+        this.op = op;
 
         // Camera view
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -50,10 +53,8 @@ public class VuMarkIdentifier {
     // returns CENTER if not found after 20 seconds
     public RelicRecoveryVuMark findVuMark() {
 
-        long startTime = System.currentTimeMillis();
-
         relicTrackables.activate();
-        while (System.currentTimeMillis() - startTime < 20000) {
+        while (op.getRuntime() < 10) {
 
             // Find a instance
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
