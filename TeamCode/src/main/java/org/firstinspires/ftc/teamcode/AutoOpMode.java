@@ -17,7 +17,6 @@ class AutoOpMode extends LinearOpMode {
     //protected double toBox = 60.96;
     protected double toBox = 61;
     protected double startRot = Math.PI * 2;
-    protected int wallSide = 1;
     protected String side = "red";
 
     @Override
@@ -25,14 +24,15 @@ class AutoOpMode extends LinearOpMode {
         Hardware hw = new Hardware(hardwareMap, this);
         VuMarkIdentifier vMarkId = new VuMarkIdentifier(hardwareMap, this);
 
-        hw.moveClaw(1);
-        sleep(2);
-        hw.moveClaw(0);
+        hw.moveClaw(Hardware.CLAW_OPEN);
+        sleep(2000);
+        hw.moveClaw(Hardware.CLAW_CLOSE);
 
         waitForStart();
 
         RelicRecoveryVuMark vm = vMarkId.findVuMark();
         double tgtDist = getDistanceToColumn(vm);
+        int wallSide = side == "blue" ? 1 : -1;
 
         hw.turnAngle(startRot, .5f);
 
@@ -55,6 +55,8 @@ class AutoOpMode extends LinearOpMode {
         telemetry.update();
 
         hw.driveDistance(10, 1);
+
+        hw.moveClaw(Hardware.CLAW_RELEASE);
     }
 
     private double getDistanceToColumn(RelicRecoveryVuMark vm) {
