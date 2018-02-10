@@ -52,7 +52,6 @@ class Hardware {
         claws[1].setDirection(Servo.Direction.REVERSE);
 
         for(DcMotor motor : wheels.values()) {
-            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
@@ -75,20 +74,18 @@ class Hardware {
         int leftTarget = (int) (Math.PI * 2 / rad * perimeter * MOTOR_COUNTS / WHEEL_SIZE);
         int rightTarget = (int) (Math.PI * 2 / -rad * perimeter * MOTOR_COUNTS / WHEEL_SIZE);
 
-        wheels.get("fl").setTargetPosition(leftTarget);
-        wheels.get("bl").setTargetPosition(leftTarget);
-        wheels.get("fr").setTargetPosition(rightTarget);
-        wheels.get("br").setTargetPosition(rightTarget);
         for(Map.Entry<String, DcMotor> e : wheels.entrySet()) {
             DcMotor motor = e.getValue();
+            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             switch(e.getKey()) {
                 case "fl":
                 case "bl":
-                    motor.setTargetPosition(motor.getCurrentPosition() + leftTarget);
+                    motor.setTargetPosition(leftTarget);
                     break;
                 case "fr":
                 case "br":
-                    motor.setTargetPosition(motor.getCurrentPosition() + rightTarget);
+                    motor.setTargetPosition(rightTarget);
                     break;
             }
         }
@@ -98,7 +95,9 @@ class Hardware {
 
     void driveDistance(double dist, float speed) {
         for(DcMotor motor : wheels.values()) {
-            motor.setTargetPosition(motor.getCurrentPosition() + (int) (dist * MOTOR_COUNTS / WHEEL_SIZE));
+            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motor.setTargetPosition((int) (dist * MOTOR_COUNTS / WHEEL_SIZE));
         }
 
         runMotors(speed, wheels.values().toArray(new DcMotor[wheels.size()]));
@@ -121,7 +120,6 @@ class Hardware {
 
     private void runMotors(float speed, DcMotor... motors) {
         for(DcMotor motor : motors) {
-            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             motor.setPower(speed);
         }
 
