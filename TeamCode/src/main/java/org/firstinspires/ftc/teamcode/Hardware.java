@@ -21,8 +21,9 @@ class Hardware {
 
     private static final double WHEEL_DISTANCE = 36.5;
     private static final double WHEEL_SIZE = 10.2 * Math.PI;
-    private static final int MOTOR_COUNTS = 1440;
-    private static final int COUNT_TO_TOP = MOTOR_COUNTS * 5;
+    private static final int WHEEL_MOTOR_COUNTS = 1120; // NeveRest motor
+    private static final int RISER_MOTOR_COUNTS = 1440; // TETRIX motor
+    private static final int COUNTS_TO_TOP = RISER_MOTOR_COUNTS * 20; // Need test for the number
     private LinearOpMode op;
 
     ModernRoboticsI2cRangeSensor rangeSensor;
@@ -75,8 +76,8 @@ class Hardware {
     void turnAngle(double rad, float speed) {
         double perimeter = WHEEL_DISTANCE * Math.PI;
 
-        int leftTarget = (int) (Math.PI * 2 / rad * perimeter * MOTOR_COUNTS / WHEEL_SIZE);
-        int rightTarget = (int) (Math.PI * 2 / -rad * perimeter * MOTOR_COUNTS / WHEEL_SIZE);
+        int leftTarget = (int) (Math.PI * 2 / rad * perimeter * WHEEL_MOTOR_COUNTS / WHEEL_SIZE);
+        int rightTarget = (int) (Math.PI * 2 / -rad * perimeter * WHEEL_MOTOR_COUNTS / WHEEL_SIZE);
 
         for(Map.Entry<String, DcMotor> e : wheels.entrySet()) {
             DcMotor motor = e.getValue();
@@ -101,7 +102,7 @@ class Hardware {
         for(DcMotor motor : wheels.values()) {
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motor.setTargetPosition((int) (dist * MOTOR_COUNTS / WHEEL_SIZE));
+            motor.setTargetPosition((int) (dist * WHEEL_MOTOR_COUNTS / WHEEL_SIZE));
         }
 
         runMotors(speed, wheels.values().toArray(new DcMotor[wheels.size()]));
@@ -110,12 +111,12 @@ class Hardware {
     void setArmPosition(float pos, float speed) {
         pos = Math.max(Math.min(pos, 1), 0);
         riser.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        riser.setTargetPosition((int) (pos * COUNT_TO_TOP));
+        riser.setTargetPosition((int) (pos * COUNTS_TO_TOP));
         runMotors(speed, riser);
     }
 
     float getArmPosition() {
-        return riser.getCurrentPosition() / (float) COUNT_TO_TOP;
+        return riser.getCurrentPosition() / (float) COUNTS_TO_TOP;
     }
 
     void moveArm(float speed) {
