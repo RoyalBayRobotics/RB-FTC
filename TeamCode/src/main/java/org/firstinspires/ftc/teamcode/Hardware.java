@@ -23,7 +23,7 @@ class Hardware {
     private static final double WHEEL_SIZE = 10.2 * Math.PI;
     private static final int WHEEL_MOTOR_COUNTS = 1120; // NeveRest motor
     private static final int RISER_MOTOR_COUNTS = 1440; // TETRIX motor
-    private static final int COUNTS_TO_TOP = RISER_MOTOR_COUNTS * 20; // Need test for the number
+    private static final int COUNTS_TO_TOP = Math.round(RISER_MOTOR_COUNTS * 14.5f);
     private LinearOpMode op;
 
     ModernRoboticsI2cRangeSensor rangeSensor;
@@ -102,16 +102,16 @@ class Hardware {
         for(DcMotor motor : wheels.values()) {
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motor.setTargetPosition((int) (dist * WHEEL_MOTOR_COUNTS / WHEEL_SIZE));
+            motor.setTargetPosition((int) Math.round(dist * WHEEL_MOTOR_COUNTS / WHEEL_SIZE));
         }
 
-        runMotors(speed, wheels.values().toArray(new DcMotor[wheels.size()]));
+        runMotors(Math.abs(speed), wheels.values().toArray(new DcMotor[wheels.size()]));
     }
 
     void setArmPosition(float pos, float speed) {
         pos = Math.max(Math.min(pos, 1), 0);
         riser.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        riser.setTargetPosition((int) (pos * COUNTS_TO_TOP));
+        riser.setTargetPosition(Math.round(pos * COUNTS_TO_TOP));
         runMotors(speed, riser);
     }
 
