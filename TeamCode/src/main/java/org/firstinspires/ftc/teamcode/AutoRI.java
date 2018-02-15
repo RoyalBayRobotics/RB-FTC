@@ -15,7 +15,7 @@ public class AutoRI extends AutoOpMode {
 
     @Override
     public void runOpMode() {
-        startRot = Math.PI;
+        startRot = 90;
         side = "red";
 
         super.runOpMode();

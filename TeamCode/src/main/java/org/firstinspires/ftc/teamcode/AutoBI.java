@@ -15,7 +15,7 @@ public class AutoBI extends AutoOpMode {
 
     @Override
     public void runOpMode() {
-        startRot = -Math.PI;
+        startRot = -90;
         side = "blue";
 
         super.runOpMode();

@@ -16,7 +16,7 @@ class AutoOpMode extends LinearOpMode {
 
     //protected double toBox = 60.96;
     protected double toBox = 61;
-    protected double startRot = Math.PI * 2;
+    protected double startRot = 180;
     protected String side = "red";
 
     @Override

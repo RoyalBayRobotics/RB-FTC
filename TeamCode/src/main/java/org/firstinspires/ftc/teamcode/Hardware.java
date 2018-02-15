@@ -73,11 +73,11 @@ class Hardware {
         wheels.get("br").setPower(-y + x - turn);
     }
 
-    void turnAngle(double rad, float speed) {
+    void turnAngle(double deg, float speed) {
         double perimeter = WHEEL_DISTANCE * Math.PI;
 
-        int leftTarget = (int) (Math.PI * 2 / rad * perimeter * WHEEL_MOTOR_COUNTS / WHEEL_SIZE);
-        int rightTarget = (int) (Math.PI * 2 / -rad * perimeter * WHEEL_MOTOR_COUNTS / WHEEL_SIZE);
+        int leftTarget = (int) Math.round(deg / 360 * perimeter * WHEEL_MOTOR_COUNTS / WHEEL_SIZE);
+        int rightTarget = (int) Math.round(-deg / 360 * perimeter * WHEEL_MOTOR_COUNTS / WHEEL_SIZE);
 
         for(Map.Entry<String, DcMotor> e : wheels.entrySet()) {
             DcMotor motor = e.getValue();
