@@ -30,8 +30,10 @@ class AutoOpMode extends LinearOpMode {
         waitForStart();
 
         hw.moveClaw(Hardware.CLAW_CLOSE);
-        sleep(1000);
-        hw.setArmPosition(.3f, 1);
+
+        sleep(500);
+
+        hw.setArmPosition(.1f, 1);
 
         RelicRecoveryVuMark vm = vMarkId.findVuMark();
 
@@ -46,15 +48,17 @@ class AutoOpMode extends LinearOpMode {
 
         hw.driveDistance(10, 1);
 
-        sleep(1000);
+        sleep(500);
 
         hw.moveClaw(Hardware.CLAW_RELEASE);
 
-        sleep(1000);
+        sleep(500);
 
         hw.driveDistance(-10, 1);
+        hw.setArmPosition(0, 1);
+        hw.moveClaw(Hardware.CLAW_OPEN);
 
-        sleep(1000);
+        sleep(500);
 
         tgtDist = getDistanceToColumn(RelicRecoveryVuMark.CENTER);
         toDistance(tgtDist);

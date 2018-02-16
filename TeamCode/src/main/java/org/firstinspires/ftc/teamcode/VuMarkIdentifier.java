@@ -50,14 +50,14 @@ public class VuMarkIdentifier {
     }
 
     // Try to find vu mark in camera view
-    // returns CENTER if not found after 10 seconds
+    // returns CENTER if not found after 5 seconds
     public RelicRecoveryVuMark findVuMark() {
 
         relicTrackables.activate();
 
         long startTime = System.currentTimeMillis();
 
-        while (System.currentTimeMillis() - startTime < 10000) {
+        while (System.currentTimeMillis() - startTime < 5000) {
 
             // Find a instance
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
