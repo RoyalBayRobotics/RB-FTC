@@ -15,6 +15,7 @@ public class AutoRI extends AutoOpMode {
 
     @Override
     public void runOpMode() {
+        toBox = 91 - 18; // distance - 1/2 robot width
         startRot = 90;
         side = "red";
 

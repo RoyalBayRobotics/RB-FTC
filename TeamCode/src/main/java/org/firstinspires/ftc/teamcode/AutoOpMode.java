@@ -14,8 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 class AutoOpMode extends LinearOpMode {
 
-    //protected double toBox = 60.96;
-    protected double toBox = 61;
+    protected double toBox = 152 - 18; // distance - 1/2 robot width
     protected double startRot = 180;
     protected String side = "red";
 
@@ -90,23 +89,21 @@ class AutoOpMode extends LinearOpMode {
     private double getDistanceToColumn(RelicRecoveryVuMark vm) {
         if(side == "blue") {
             switch(vm) {
-                case LEFT:
-                    return toBox;
-                case CENTER:
-                    return toBox + 19;//.3802;
                 case RIGHT:
-                    //return toBox + 38.7604;
-                    return toBox + 39;
+                    return toBox + 30;//.48;
+                case CENTER:
+                    return toBox;
+                case LEFT:
+                    return toBox - 30;//.48
             }
         } else {
             switch(vm) {
                 case RIGHT:
-                    return toBox;
+                    return toBox - 30;//.48;
                 case CENTER:
-                    return toBox + 19;//.3802;
+                    return toBox;
                 case LEFT:
-                    //return toBox + 38.7604;
-                    return toBox + 39;
+                    return toBox + 30;//.48
             }
         }
         return toBox + 19;//.3802;
