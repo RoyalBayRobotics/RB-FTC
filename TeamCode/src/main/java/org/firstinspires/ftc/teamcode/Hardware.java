@@ -27,9 +27,10 @@ class Hardware {
     private LinearOpMode op;
 
     ModernRoboticsI2cRangeSensor rangeSensor;
-    DcMotor riser;
+    DcMotor lift;
     Servo[] claws = new Servo[2];
     Map<String, DcMotor> wheels = new HashMap<>();
+    DigitalChannel button;
 
     Hardware(HardwareMap hardwares, LinearOpMode op) {
 
@@ -38,7 +39,7 @@ class Hardware {
         // Get all hardwares
         rangeSensor = hardwares.get(ModernRoboticsI2cRangeSensor.class, "range_sensor");
 
-        riser = hardwares.get(DcMotor.class, "riser");
+        lift = hardwares.get(DcMotor.class, "lift");
 
         claws[0] = hardwares.get(Servo.class, "claw_l");
         claws[1] = hardwares.get(Servo.class, "claw_r");
@@ -49,10 +50,10 @@ class Hardware {
         wheels.put("bl", hardwares.get(DcMotor.class, "wheel_bl"));
         wheels.put("br", hardwares.get(DcMotor.class, "wheel_br"));
 
-        // Init them
-        riser.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        riser.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        button = hardwares.get(DigitalChannel.class, "button");
 
+        // Init them
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
         claws[0].setDirection(Servo.Direction.FORWARD);
         claws[1].setDirection(Servo.Direction.REVERSE);
 
@@ -64,6 +65,17 @@ class Hardware {
         wheels.get("fr").setDirection(DcMotorSimple.Direction.FORWARD);
         wheels.get("bl").setDirection(DcMotorSimple.Direction.REVERSE);
         wheels.get("br").setDirection(DcMotorSimple.Direction.FORWARD);
+
+        button.setMode(DigitalChannel.Mode.INPUT);
+
+        // Move the arm to the bottom
+        while(!button.getState()) { // Button is not pressed
+            lift.setPower(-.5f);
+        }
+
+        lift.setPower(0);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     void drive(double x, double y, double turn) {
@@ -105,22 +117,36 @@ class Hardware {
             motor.setTargetPosition((int) Math.round(dist * WHEEL_MOTOR_COUNTS / WHEEL_SIZE));
         }
 
-        runMotors(Math.abs(speed), wheels.values().toArray(new DcMotor[wheels.size()]));
+        runMotors(speed, wheels.values().toArray(new DcMotor[wheels.size()]));
     }
 
     void setArmPosition(float pos, float speed) {
         pos = Math.max(Math.min(pos, 1), 0);
-        riser.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        riser.setTargetPosition(Math.round(pos * COUNTS_TO_TOP));
-        runMotors(speed, riser);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift.setTargetPosition(Math.round(pos * COUNTS_TO_TOP));
+        runMotors(speed, lift);
     }
 
     float getArmPosition() {
-        return riser.getCurrentPosition() / (float) COUNTS_TO_TOP;
+        return lift.getCurrentPosition() / (float) COUNTS_TO_TOP;
     }
 
     void moveArm(float speed) {
-        riser.setPower(speed);
+        if(button.getState()) { // Button is pressed
+            if(lift.getPower() < 0)
+                lift.setPower(0);
+            if(speed < 0)
+                return;
+        }
+
+        if(lift.getCurrentPosition() > COUNTS_TO_TOP) { // Arm is too high
+            if(lift.getPower() > 0)
+                lift.setPower(0);
+            if(speed > 0)
+                return;
+        }
+
+        lift.setPower(speed);
     }
 
     void moveClaw(float pos) {
@@ -130,7 +156,7 @@ class Hardware {
 
     private void runMotors(float speed, DcMotor... motors) {
         for(DcMotor motor : motors) {
-            motor.setPower(speed);
+            motor.setPower(Math.abs(speed));
         }
 
         boolean running;
