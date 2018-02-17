@@ -34,6 +34,9 @@ public class ManualOpmode extends OpMode {
             bumperPushed = false;
         }
 
-        hw.moveClaw(isClawOpen ? 1 - gamepad1.left_trigger : gamepad1.left_trigger);
+        hw.moveClaw(isClawOpen ?
+                Hardware.CLAW_OPEN - gamepad1.left_trigger :
+                Hardware.CLAW_CLOSE + gamepad1.left_trigger
+                );
     }
 }
