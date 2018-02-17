@@ -27,6 +27,9 @@ class AutoOpMode extends LinearOpMode {
 
         hw.moveClaw(Hardware.CLAW_OPEN);
 
+        telemetry.addData("Status", "Inited");
+        telemetry.update();
+
         waitForStart();
 
         hw.moveClaw(Hardware.CLAW_CLOSE);
