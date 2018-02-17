@@ -40,7 +40,7 @@ class AutoOpMode extends LinearOpMode {
 
         RelicRecoveryVuMark vm = vMarkId.findVuMark();
 
-        hw.turnAngle(startRot, 1);
+        hw.turnAngle(startRot, .5f);
 
         sleep(1000);
 

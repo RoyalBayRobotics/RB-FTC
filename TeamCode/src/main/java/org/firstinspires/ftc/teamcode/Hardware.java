@@ -16,8 +16,8 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 class Hardware {
 
     public static final float CLAW_OPEN = 1;
-    public static final float CLAW_CLOSE = 0;
-    public static final float CLAW_RELEASE = .4f;
+    public static final float CLAW_CLOSE = .1f;
+    public static final float CLAW_RELEASE = .3f;
 
     private static final double WHEEL_DISTANCE = 36.5;
     private static final double WHEEL_SIZE = 10.2 * Math.PI;
