@@ -23,8 +23,9 @@ class AutoOpMode extends LinearOpMode {
     @Override
     public void runOpMode() {
         hw = new Hardware(hardwareMap, this);
+        /*
         VuMarkIdentifier vMarkId = new VuMarkIdentifier(hardwareMap, this);
-
+*/
         hw.moveClaw(Hardware.CLAW_OPEN);
 
         telemetry.addData("Status", "Inited");
@@ -32,6 +33,7 @@ class AutoOpMode extends LinearOpMode {
 
         waitForStart();
 
+/*
         hw.moveClaw(Hardware.CLAW_CLOSE);
 
         sleep(500);
@@ -69,6 +71,8 @@ class AutoOpMode extends LinearOpMode {
         sleep(1000);
 
         hw.driveDistance(10, 1);
+        */
+        hw.driveDistance(-100, 1);
     }
 
     private void toDistance(double tgtDist) {

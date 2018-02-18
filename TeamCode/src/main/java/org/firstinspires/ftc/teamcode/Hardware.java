@@ -23,7 +23,7 @@ class Hardware {
     private static final double WHEEL_SIZE = 10.2 * Math.PI;
     private static final int WHEEL_MOTOR_COUNTS = 1120; // NeveRest motor
     private static final int RISER_MOTOR_COUNTS = 1440; // TETRIX motor
-    private static final int COUNTS_TO_TOP = Math.round(RISER_MOTOR_COUNTS * 14.5f);
+    private static final int COUNTS_TO_TOP = Math.round(RISER_MOTOR_COUNTS * 15f);
     private LinearOpMode op;
 
     ModernRoboticsI2cRangeSensor rangeSensor;
@@ -68,12 +68,14 @@ class Hardware {
 
         button.setMode(DigitalChannel.Mode.INPUT);
 
+        /*
         // Move the arm to the bottom
         while(!button.getState()) { // Button is not pressed
             lift.setPower(-.5f);
         }
 
         lift.setPower(0);
+        */
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
