@@ -76,8 +76,10 @@ class Hardware {
 
         lift.setPower(0);
         */
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if(button.getState()) {
+            lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
     }
 
     void drive(double x, double y, double turn) {
@@ -137,6 +139,10 @@ class Hardware {
         if(button.getState()) { // Button is pressed
             if(lift.getPower() < 0)
                 lift.setPower(0);
+
+            lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
             if(speed < 0)
                 return;
         }
